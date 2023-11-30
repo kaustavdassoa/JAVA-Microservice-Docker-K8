@@ -18,6 +18,24 @@ spring:
   h2:
     console:
       enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-11896815.okta.com/oauth2/default
+      client:
+        registration:
+          internal-client:
+            provider: okta
+            authorizationGrantType: client_credentials
+            scope: internal
+            clientId: 0oadhbzuwrShYijOi5d7
+            clientSecret: pwjd6D0-ZI2pATI6ynZr_S2ggQZeLQ-IPVUx1qil8Dx2sstmfB_052j-uDEfpghm
+        provider:
+          okta:
+            issuerUri: https://dev-11896815.okta.com/oauth2/default
+
+
 
 eureka:
   instance:
@@ -37,3 +55,9 @@ management:
   tracing:
     sampling:
       probability: 1.0
+
+
+okta:
+  oauth2:
+    issuer: https://dev-11896815.okta.com/oauth2/default
+    audience: api://default

@@ -1,7 +1,8 @@
 package com.example.productservice.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Entity
 @Data

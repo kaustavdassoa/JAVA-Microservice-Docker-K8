@@ -31,6 +31,12 @@ eureka:
       defaultZone : http://localhost:8761/eureka
 
 
+okta:
+  oauth2:
+    issuer: https://dev-11896815.okta.com/oauth2/default
+    audience: api://default
+
+
 logging:
   pattern:
     level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
