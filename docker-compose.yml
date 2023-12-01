@@ -1,0 +1,16 @@
+version: '3'
+services:
+  paymentservice:
+    image: 'kaustavdassoa/paymentservice:latest'
+    container_name: paymentservice
+    ports:
+      - '7001:7001'
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://host.docker.internal:8761/eureka
+  productservice:
+    image: 'kaustavdassoa/productservice:latest'
+    container_name: productservice
+    ports:
+      - '9001:9001'
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://host.docker.internal:8761/eureka
