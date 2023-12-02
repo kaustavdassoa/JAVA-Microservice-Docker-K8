@@ -1,16 +1,55 @@
 version: '3'
 services:
+  eurekaserver:
+    image: 'kaustavdassoa/eurekaserver:latest'
+    container_name: eurekaserver
+    ports:
+      - '8761:8761'
   paymentservice:
     image: 'kaustavdassoa/paymentservice:latest'
     container_name: paymentservice
     ports:
       - '7001:7001'
     environment:
-      - EUREKA_SERVER_ADDRESS=http://host.docker.internal:8761/eureka
+      - EUREKA_SERVER_URL=http://eurekaserver:8761/eureka
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://eurekaserver:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+       - eurekaserver
   productservice:
     image: 'kaustavdassoa/productservice:latest'
     container_name: productservice
     ports:
       - '9001:9001'
     environment:
-      - EUREKA_SERVER_ADDRESS=http://host.docker.internal:8761/eureka
+      - EUREKA_SERVER_URL=http://eurekaserver:8761/eureka
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://eurekaserver:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      - eurekaserver
+      - paymentservice
+  orderservice:
+    image: 'kaustavdassoa/orderservice:latest'
+    container_name: orderservice
+    ports:
+      - '8001:8001'
+    environment:
+      - EUREKA_SERVER_URL=http://eurekaserver:8761/eureka
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://eurekaserver:8761/actuator/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      - eurekaserver
+      - paymentservice
+      - productservice
+
+
+
